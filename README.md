@@ -63,7 +63,7 @@ Each project folder contains:
 | Date       | Project               | Summary                         |    status  | deployed contract |
 |------------|---------------------  |---------------------------------|------------|-------------------|
 | 2025-06-20 | `bounce.rs`           | Terminal game with physics logic|   Done     |Not contract       |
-| 2025-06-21 | `stellar-marketplace` | Marketplace contract on Soroban |   Done     |Stellar(CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V)|
+| 2025-06-21 | `stellar-marketplace` | Marketplace contract on Soroban |   Done     |Stellar([CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V](https://stellar.expert/explorer/testnet/contract/CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V))|
 
 ---
 
