@@ -60,10 +60,10 @@ Each project folder contains:
 
 ## 📅 Timeline
 
-| Date       | Project               | Summary                         |    status  |
-|------------|---------------------  |---------------------------------|------------|
-| 2025-06-20 | `bounce.rs`           | Terminal game with physics logic|   Done     |
-| 2025-06-21 | `stellar-marketplace` | Marketplace contract on Soroban |   Pending  |
+| Date       | Project               | Summary                         |    status  | deployed contract |
+|------------|---------------------  |---------------------------------|------------|-------------------|
+| 2025-06-20 | `bounce.rs`           | Terminal game with physics logic|   Done     |Not contract       |
+| 2025-06-21 | `stellar-marketplace` | Marketplace contract on Soroban |   Done     |Stellar(CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V)|
 
 ---
 
