@@ -1,70 +1,95 @@
 #![no_std]
-use soroban_sdk::{contract, contracttype, contractimpl, Env,String};
+use soroban_sdk::{contract, contractimpl, contracterror,contracttype, Address, Env, String, Vec, panic_with_error, log};
+use soroban_sdk::xdr::{ScErrorCode, ScErrorType};
+
+use soroban_sdk::token; // for interacting with token contract
 
 #[derive(Clone)]
 #[contracttype]
-pub struct Customer{
-    name : String,
-    surname : String,
-    balance : u64
-
+pub struct Customer {
+    name: String,
+    surname: String,
+    balance: u64,
 }
 
 #[derive(Clone)]
 #[contracttype]
-pub struct Product{
+pub struct Product {
     id: u32,
-    name : String,
-    price : u128,
-    stock_quantity : u128
+    name: String,
+    price: u128,
+    stock_quantity: u128,
 }
 
 #[derive(Clone)]
 #[contracttype]
-pub enum DataKey{
-    ProductbyId(u32),
+pub enum DataKey {
+    ProductById(u32),
+}
+
+#[derive(Debug)]
+#[contracterror]
+pub enum XMartError {
+     InputMismatch = 1,
+    ProductNotFound = 2,
 }
 
 
 #[contract]
 pub struct XMart;
 
-
-// This is a sample contract. Replace this placeholder with your own contract logic.
-// A corresponding test example is available in `test.rs`.
-//
-// For comprehensive examples, visit <https://github.com/stellar/soroban-examples>.
-// The repository includes use cases for the Stellar ecosystem, such as data storage on
-// the blockchain, token swaps, liquidity pools, and more.
-//
-// Refer to the official documentation:
-// <https://developers.stellar.org/docs/build/smart-contracts/overview>.
 #[contractimpl]
 impl XMart {
-   pub fn addProducts(env:Env ,id:u32, name:String , price: u128, stock_quantity: u128 ){
-    let product = Product{
-        id,
-        name ,
-        price,
-        stock_quantity
-    };
-  let key = DataKey::ProductbyId(id);
+    pub fn add_product(env: Env, id: u32, name: String, price: u128, stock_quantity: u128) {
+        let product = Product {
+            id,
+            name,
+            price,
+            stock_quantity,
+        };
+        let key = DataKey::ProductById(id);
+        env.storage().instance().set(&key, &product);
+    }
 
-env.storage().instance().set(&product, &key);
+    pub fn purchase(
+        env: Env,
+        buyer: Address,
+        token: Address,
+        product_ids: Vec<u32>,
+        quantities: Vec<u128>,
+    ) {
+        if product_ids.len() != quantities.len() {
+            panic_with_error!(&env, XMartError::ProductNotFound);
+        }
 
-   }
-  
-  pub fn purchase(env:Env,from : Address,token: Address,price: u128,user: Address,id:u32,amount:u128, name:String , price: u64, stock_quantity: u64 ){
-    let token_balance=token::Client::new(&env,&from,&user,&amount);
-          
-        if token_balance.balance(&user)>0
-        panic_with_error!(&env, Error::InvalidAmount);
+        let client = token::Client::new(&env, &token);
+        let mut total_price: u128 = 0;
 
+        for (i, product_id) in product_ids.iter().enumerate() {
+            let key = DataKey::ProductById(product_id);
+            let mut product: Product = env
+                .storage()
+                .instance()
+                .get(&key)
+                .unwrap_or_else(|| panic_with_error!(&env, (ScErrorType::Contract, ScErrorCode::InternalError)));
 
+            let qty = quantities.get(product_id).unwrap_or(0);
 
-
-  }
-
-
+          if &qty > &product.stock_quantity {
+    panic_with_error!(&env, (ScErrorType::Contract, ScErrorCode::InternalError));
 }
 
+            total_price += product.price * &qty;
+
+            // Reduce stock
+            product.stock_quantity -= &qty;
+            env.storage().instance().set(&key, &product);
+        }
+
+        // Transfer total payment from buyer to contract
+        let total_price_i128 = total_price as i128;
+        client.transfer(&buyer, &env.current_contract_address(), &total_price_i128);
+
+        log!(&env, "Purchase successful: total paid {}", total_price);
+    }
+}
