@@ -39,6 +39,20 @@ Supports:
 - On-chain/off-chain component design
 - Integration with token standards
 
+###📍 3. `token-contracts` – Custom Token Standard (Soroban)
+📅 Started: June 24, 2025
+🔧 Tech: Rust, Stellar Soroban SDK
+🔐 Description:
+A modular token contract supporting minting, burning, transfers, approvals, and account freezing.
+Key components:
+
+Admin-controlled operations (mint, burn, freeze, unfreeze)
+ERC20-style allowance with expiration
+Instance TTL management for storage safety
+Metadata handling (name, symbol, decimals)
+Event emission for all critical token actions
+📂 Source: token-contracts
+🔍 Explorer: [Contract on Stellar Testnet](https://stellar.expert/explorer/testnet/contract/CBEZZYS7KNL7PO7BDGRD2WJAODRB67HM65BO2HVMO44SBXEDVRPE33SU)
 
 ## 🧠 Learnings & Takeaways
 
@@ -60,10 +74,11 @@ Each project folder contains:
 
 ## 📅 Timeline
 
-| Date       | Project               | Summary                         |    status  | deployed contract |
-|------------|---------------------  |---------------------------------|------------|-------------------|
-| 2025-06-20 | `bounce.rs`           | Terminal game with physics logic|   Done     |Not contract       |
-| 2025-06-21 | `stellar-marketplace` | Marketplace contract on Soroban |   Done     |Stellar([CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V](https://stellar.expert/explorer/testnet/contract/CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V))|
+| Date       | Project               | Summary                                  | Status | Deployed Contract                                                                                                            |
+| ---------- | --------------------- | ---------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| 2025-06-20 | `bounce.rs`           | Terminal game with physics logic         | Done   | Not a contract                                                                                                               |
+| 2025-06-21 | `stellar-marketplace` | Marketplace contract on Soroban          | Done   | [CBIG4CP6P2FN...](https://stellar.expert/explorer/testnet/contract/CBIG4CP6P2FNCPNA444KYZOLDRISVVVHARDHDDK3IZB5T6HSRUUXJB6V) |
+| 2025-06-24 | `token-contracts`     | Modular token contract with freeze logic | Done   | [CBEZZYS7KNL7...](https://stellar.expert/explorer/testnet/contract/CBEZZYS7KNL7PO7BDGRD2WJAODRB67HM65BO2HVMO44SBXEDVRPE33SU) |
 
 ---
 
