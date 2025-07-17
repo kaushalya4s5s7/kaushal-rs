@@ -1,0 +1,12 @@
+{
+  "chain": [
+    {
+      "timestamp": 1752738279,
+      "transactions": [],
+      "previous_hash": "0",
+      "nonce": 0,
+      "hash": "393de3cf5dc4528d4af8f12f18fccbc594bc017cb52fa25b7714ed0d35397766"
+    }
+  ],
+  "difficulty": 2
+}
